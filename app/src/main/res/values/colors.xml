@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#40000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="background_tab_pressed">#6633B5E5</color>
+    <color name="black_semi_transparent">#B2000000</color>
+    <color name="attention_color">#436EEE</color>
+    <color name="mine_color">#3A5FCD</color>
+    <color name="origle">#FF8C00</color>
+    <color name="origle_tab">#FF7F24</color>
+    <color name="theme_color_tab">#2b89f0</color>
+    <color name="theme_color">#2B98f0</color>
+    <color name="ripple">#B0C4DE</color>
+    <color name="transparent">#e0000000</color>
+    <color name="half_transparent">#40000000</color>
+    <color name="normal_text_color">#424242</color>
+    <color name="gray">#707070</color>
+    <color name="light_gray">#f5f5f5</color>
+    <color name="deep_gray">#707070</color>
+    <color name="transparent_gray">#ee373737</color>
+
+    <color name="red">#ff0000</color>
+
+
+</resources>

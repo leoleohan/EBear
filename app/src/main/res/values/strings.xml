@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">E-Bear</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="welcome">欢迎你，糖小晓</string>
+
+
+    <string name="network_exception">网络异常</string>
+    <string name="other_exception">网络不给力</string>
+
+
+</resources>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/biger_space"
+            android:text="猜你"
+            android:textColor="@color/deep_gray"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <com.example.tangyangkai.ebear.view.RippleView
+        android:id="@+id/personal_write_rv"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/small_space"
+        ripple:rv_type="rectangle"
+        ripple:rv_zoom="true">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/write"
+            android:drawablePadding="@dimen/middle_space"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/middle_space"
+            android:text="写心情"
+            android:textColor="@color/normal_text_color"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right" />
+    </com.example.tangyangkai.ebear.view.RippleView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <com.example.tangyangkai.ebear.view.RippleView
+        android:id="@+id/personal_home_rv"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/small_space"
+        ripple:rv_type="rectangle"
+        ripple:rv_zoom="true">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/homepage"
+            android:drawablePadding="@dimen/middle_space"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/middle_space"
+            android:text="逛主页"
+            android:textColor="@color/normal_text_color"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right" />
+    </com.example.tangyangkai.ebear.view.RippleView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <com.example.tangyangkai.ebear.view.RippleView
+        android:id="@+id/personal_attention_rv"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/small_space"
+        ripple:rv_type="rectangle"
+        ripple:rv_zoom="true">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/my_attention"
+            android:drawablePadding="@dimen/middle_space"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/middle_space"
+            android:text="看关注"
+            android:textColor="@color/normal_text_color"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right" />
+    </com.example.tangyangkai.ebear.view.RippleView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/biger_space"
+            android:text="设置"
+            android:textColor="@color/deep_gray"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <com.example.tangyangkai.ebear.view.RippleView
+        android:id="@+id/personal_mine_rv"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/small_space"
+        ripple:rv_type="rectangle"
+        ripple:rv_zoom="true">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/mine"
+            android:drawablePadding="@dimen/middle_space"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/middle_space"
+            android:text="个人信息"
+            android:textColor="@color/normal_text_color"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right" />
+    </com.example.tangyangkai.ebear.view.RippleView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <com.example.tangyangkai.ebear.view.RippleView
+        android:id="@+id/personal_set_rv"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/small_space"
+        ripple:rv_type="rectangle"
+        ripple:rv_zoom="true">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/set"
+            android:drawablePadding="@dimen/middle_space"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/middle_space"
+            android:text="修改密码"
+            android:textColor="@color/normal_text_color"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right" />
+    </com.example.tangyangkai.ebear.view.RippleView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <com.example.tangyangkai.ebear.view.RippleView
+        android:id="@+id/personal_about_rv"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/small_space"
+        ripple:rv_type="rectangle"
+        ripple:rv_zoom="true">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/about_us"
+            android:drawablePadding="@dimen/middle_space"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/middle_space"
+            android:text="关于我们"
+            android:textColor="@color/normal_text_color"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right" />
+    </com.example.tangyangkai.ebear.view.RippleView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+    <com.example.tangyangkai.ebear.view.RippleView
+        android:id="@+id/personal_change_rv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/red"
+        android:gravity="center_vertical"
+        android:padding="@dimen/small_space"
+        ripple:rv_type="rectangle"
+        ripple:rv_zoom="true">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="退出账号"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+
+    </com.example.tangyangkai.ebear.view.RippleView>
+
+
+</LinearLayout>

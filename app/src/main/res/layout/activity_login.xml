@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg"
+    tools:context="com.example.tangyangkai.ebear.activity.LoginActivity">
+
+    <RelativeLayout
+        android:id="@+id/login_login_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <RelativeLayout
+            android:id="@+id/login_usernameEtv_rl"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/login_edit_border"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/login_user_img"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/login_user" />
+
+            <EditText
+                android:id="@+id/login_username_etv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/login_user_img"
+                android:background="@null"
+                android:hint="请输入账号"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"
+                android:textSize="16dp"></EditText>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/login_passwordEtv_rl"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/login_usernameEtv_rl"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/login_edit_border"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/login_password_img"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/login_password" />
+
+            <EditText
+                android:id="@+id/login_password_etv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/login_password_img"
+                android:background="@null"
+                android:ems="10"
+                android:textSize="16dp"
+                android:hint="请输入密码"
+                android:inputType="textPassword"
+                android:textColor="@color/black"></EditText>
+
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/login_login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/login_passwordEtv_rl"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/login_btn_bg"
+            android:gravity="center"
+            android:text="登录"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        <RelativeLayout
+            android:id="@+id/login_text_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_login_btn"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/login_register_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="新用户注册"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18dp" />
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
