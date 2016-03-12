@@ -1,8 +1,9 @@
 package com.example.tangyangkai.ebear.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,25 +15,24 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.example.tangyangkai.ebear.R;
 import com.example.tangyangkai.ebear.adapter.FragmentAdapter;
-import com.example.tangyangkai.ebear.fragment.AttentionFragment;
-import com.example.tangyangkai.ebear.fragment.HomeFragment;
-import com.example.tangyangkai.ebear.fragment.MineFragment;
-import com.example.tangyangkai.ebear.utils.SystemBarTintManager;
+import com.example.tangyangkai.ebear.model.Person;
 import com.example.tangyangkai.ebear.view.PagerSlidingTabStrip;
 import com.example.tangyangkai.ebear.view.RippleView;
+import com.example.tangyangkai.ebear.view.RoundImageView;
 import com.example.tangyangkai.ebear.view.floatbutton.FloatingActionButton;
 import com.example.tangyangkai.ebear.view.floatbutton.FloatingActionsMenu;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.bmob.v3.BmobUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,7 +59,14 @@ public class MainActivity extends AppCompatActivity {
     RippleView mainPersonalRv;
     @Bind(R.id.main_change_rv)
     RippleView mainChangeRv;
-
+    @Bind(R.id.main_username)
+    TextView mainUsernameTv;
+    @Bind(R.id.main_head_img)
+    RoundImageView mainHeadImg;
+    private Context context;
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
+    public static MainActivity instance=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +74,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initviews();
+        context = this;
+        instance=this;
     }
 
     private void initviews() {
+        sp = getSharedPreferences("EbearInfo", context.MODE_PRIVATE);
+        editor = sp.edit();
         setSupportActionBar(toolbar);
 
         //设置返回键可用
@@ -150,12 +161,22 @@ public class MainActivity extends AppCompatActivity {
         mainChangeRv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                editor.clear();
+                editor.commit();
+
+                BmobUser.logOut(context);   //清除缓存用户对象
+                BmobUser currentUser = BmobUser.getCurrentUser(context); // 现在的currentUser是null了
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
             }
         });
-
-
+        Person person = BmobUser.getCurrentUser(MainActivity.this, Person.class);
+        if (person.getNickname() != null) {
+            mainUsernameTv.setText(person.getNickname());
+        } else {
+            mainUsernameTv.setText(person.getUsername());
+        }
     }
 
 
@@ -217,5 +238,25 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Person person = BmobUser.getCurrentUser(MainActivity.this, Person.class);
+        if (person.getNickname() != null) {
+            mainUsernameTv.setText("欢迎你," + person.getNickname());
+        } else {
+            mainUsernameTv.setText("欢迎你," + person.getUsername());
+        }
+        if (person.getUser_icon() != null) {
+            ImageLoader.getInstance().displayImage(person.getUser_icon(), mainHeadImg);
+
+        } else {
+            mainHeadImg.setBackground(getResources().getDrawable(R.drawable.defult_img));
+        }
+
+
     }
 }

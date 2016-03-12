@@ -11,7 +11,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:scaleType="fitXY"
-        android:src="@drawable/mydefault" />
+        android:src="@drawable/defult_img" />
 
     <TextView
         android:id="@+id/tv_user_name"

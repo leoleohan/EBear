@@ -9,6 +9,7 @@ public class Person extends BmobUser {
     private String nickname;
     private String sex;
     private Integer age;
+    private String birthday;
 
 
     public String getUser_icon() {
@@ -41,5 +42,13 @@ public class Person extends BmobUser {
 
     public Integer getAge() {
         return age;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getBirthday() {
+        return birthday;
     }
 }

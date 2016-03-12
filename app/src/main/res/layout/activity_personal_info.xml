@@ -1,13 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
 
     tools:context="com.example.tangyangkai.ebear.activity.PersonalInfoActivity">
 
     <include layout="@layout/titlebar"></include>
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+
+        <com.example.tangyangkai.ebear.view.RoundImageView
+            android:id="@+id/info_head_img"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="50dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/defult_img" />
+    </RelativeLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/name_tel"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="@dimen/small_space">
+
+        <EditText
+            android:id="@+id/info_name_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/middle_space"
+            android:background="@null"
+            android:hint="请输入昵称"
+            android:textColor="@color/normal_text_color"
+            android:textSize="18sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+
+    <RelativeLayout
+        android:id="@+id/info_sex_rl"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="22dp">
+
+        <TextView
+            android:id="@+id/info_sex_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp"
+            android:text="请选择性别"
+            android:textColor="@color/normal_text_color"
+            android:textSize="18sp" />
+
+
+        <RadioGroup
+            android:id="@+id/info_sex_rg"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <RadioButton
+                android:id="@+id/info_man_rb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/man_focus"
+                android:button="@null" />
+
+            <RadioButton
+                android:id="@+id/info_woman_rb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/woman_normal"
+                android:button="@null" />
+
+
+        </RadioGroup>
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+
+    <RelativeLayout
+        android:id="@+id/info_bir_rl"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/info_bir_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp"
+            android:textColor="@color/normal_text_color"
+            android:textSize="18sp" />
+
+
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+
+    <com.example.tangyangkai.ebear.view.RippleView
+        android:id="@+id/info_save_rv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:padding="@dimen/small_space"
+        ripple:rv_type="rectangle"
+        ripple:rv_zoom="true">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="保存"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+
+    </com.example.tangyangkai.ebear.view.RippleView>
 
 
 </LinearLayout>

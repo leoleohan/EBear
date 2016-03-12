@@ -1,0 +1,97 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="50dp">
+
+            <com.example.tangyangkai.ebear.view.RoundImageView
+                android:id="@+id/item_user_img"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/defult_img" />
+
+            <TextView
+                android:id="@+id/item_nickname_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/item_user_img"
+                android:text="糖小晓"
+                android:textColor="@color/normal_text_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/item_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:text="2016-03-10 12:34:34"
+                android:textColor="@color/gray"
+                android:textSize="16sp" />
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/item_note_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="这是第一条随笔..."
+            android:textColor="@color/normal_text_color"
+            android:textSize="18dp" />
+
+        <com.example.tangyangkai.ebear.view.NoScrollGridView
+            android:id="@+id/item_img_gv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="5dp"
+            android:numColumns="2"
+            android:verticalSpacing="5dp"></com.example.tangyangkai.ebear.view.NoScrollGridView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/item_address_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/location" />
+
+            <TextView
+                android:id="@+id/item_address_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/item_address_img"
+                android:text="天津市河东区港湾中心1111室"
+                android:textColor="@color/gray"
+                android:textSize="14dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

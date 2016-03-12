@@ -2,8 +2,9 @@ package com.example.tangyangkai.ebear.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     Button loginBtn;
     @Bind(R.id.login_register_tv)
     TextView registerTv;
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
 
 
     @Override
@@ -41,7 +44,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initviews() {
-
+        sp=getSharedPreferences("EbearInfo",context.MODE_PRIVATE);
+        editor=sp.edit();
         registerTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,9 +77,27 @@ public class LoginActivity extends AppCompatActivity {
         user.login(this, new SaveListener() {
             @Override
             public void onSuccess() {
-                UiUtil.showToast(context, "登录成功");
-                startActivity(new Intent(context, MainActivity.class));
+
+
+
+
+
+
+                editor.putBoolean("isFirstLogin",false);
+                editor.putString("username", usernameEt.getText().toString().trim());
+                editor.putString("password",passwordEt.getText().toString().trim());
+
+
+                editor.commit();
+
+
+                //获取到当前用户的信息
+
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
                 finish();
+                UiUtil.showToast(context, "登录成功");
+
             }
 
             @Override

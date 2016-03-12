@@ -4,9 +4,14 @@
     android:layout_height="match_parent"
     tools:context="com.example.tangyangkai.ebear.fragment.HomeFragment">
 
-    <TextView
+    <com.example.tangyangkai.ebear.view.RefreshLayout
+        android:id="@+id/mine_rl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/mine_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+    </com.example.tangyangkai.ebear.view.RefreshLayout>
 
 </LinearLayout>
