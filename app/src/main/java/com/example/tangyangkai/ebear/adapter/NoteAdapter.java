@@ -1,6 +1,7 @@
 package com.example.tangyangkai.ebear.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +10,19 @@ import android.widget.TextView;
 
 import com.example.tangyangkai.ebear.R;
 import com.example.tangyangkai.ebear.model.Note;
+import com.example.tangyangkai.ebear.model.Person;
+import com.example.tangyangkai.ebear.view.NoScrollGridView;
 import com.example.tangyangkai.ebear.view.RoundImageView;
+import com.lidroid.xutils.BitmapUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.bmob.v3.BmobUser;
 
 /**
  * Created by Administrator on 2016/3/10.
@@ -33,13 +40,16 @@ public class NoteAdapter extends BaseAdapter {
         public TextView note;
         @Bind(R.id.item_address_tv)
         public TextView address;
+        @Bind(R.id.item_img_gv)
+        public NoScrollGridView imgGridView;
 
 
     }
 
     private Context context;
     private LayoutInflater layoutinflater;
-    private List<Note> notes;
+    private List<Note> notes = new ArrayList<>();
+    private GridViewImgAdapter gridAdapter;
 
     public NoteAdapter(Context context) {
         this.context = context;
@@ -52,7 +62,7 @@ public class NoteAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (notes!=null) {
+        if (notes != null) {
             return notes.size();
         } else {
             return 0;
@@ -73,11 +83,12 @@ public class NoteAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder viewHolder;
+
+        ViewHolder viewHolder = new ViewHolder();
         if (convertView == null) {
             convertView = layoutinflater.inflate(R.layout.lv_item_note,
                     null);
-            viewHolder = new ViewHolder();
+            viewHolder.imgGridView = (NoScrollGridView) convertView.findViewById(R.id.item_img_gv);
             ButterKnife.bind(viewHolder, convertView);
             convertView.setTag(viewHolder);
         } else {
@@ -85,11 +96,52 @@ public class NoteAdapter extends BaseAdapter {
         }
 
         Note note = notes.get(position);
-        ImageLoader.getInstance().displayImage(note.getUser_icon(), viewHolder.userImg);
-        viewHolder.address.setText(note.getAddress());
-        viewHolder.nickname.setText(note.getNickname());
-        viewHolder.note.setText(note.getNote());
-        viewHolder.time.setText(note.getTime());
+        List<String> urls = new ArrayList<>();
+
+
+        Person person = BmobUser.getCurrentUser(context, Person.class);
+
+
+        if (note.getImgs() != null) {
+            String imgUrls = note.getImgs().substring(1, note.getImgs().length() - 1);
+            if (!TextUtils.isEmpty(imgUrls)) {
+                String[] arr = imgUrls.split(",");
+                urls = Arrays.asList(arr);
+            }
+
+
+            if (note.getUserId().equals(person.getObjectId())) {
+                ImageLoader.getInstance().displayImage(person.getUser_icon(), viewHolder.userImg);
+                viewHolder.nickname.setText(person.getNickname());
+            } else {
+                ImageLoader.getInstance().displayImage(note.getUser_icon(), viewHolder.userImg);
+                viewHolder.note.setText(person.getNickname());
+            }
+
+            viewHolder.address.setText(note.getAddress());
+
+            viewHolder.note.setText(note.getNote());
+            viewHolder.time.setText(note.getTime());
+            if (viewHolder.imgGridView != null) {
+                gridAdapter = new GridViewImgAdapter(context, urls);
+                viewHolder.imgGridView.setAdapter(gridAdapter);
+            }
+        } else {
+
+
+            if (note.getUserId().equals(person.getObjectId())) {
+                ImageLoader.getInstance().displayImage(person.getUser_icon(), viewHolder.userImg);
+                viewHolder.nickname.setText(person.getNickname());
+            } else {
+                ImageLoader.getInstance().displayImage(note.getUser_icon(), viewHolder.userImg);
+                viewHolder.note.setText(person.getNickname());
+            }
+            viewHolder.address.setText(note.getAddress());
+            viewHolder.note.setText(note.getNote());
+            viewHolder.time.setText(note.getTime());
+        }
+
+
         return convertView;
     }
 }

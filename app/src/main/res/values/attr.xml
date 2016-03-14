@@ -110,4 +110,17 @@
         <attr name="cpb_paddingProgress" format="dimension"/>
     </declare-styleable>
 
+
+    <declare-styleable name="CollapsingAvatarToolbar">
+        <attr name="collapsedPadding" format="dimension"/>
+        <attr name="expandedPadding" format="dimension"/>
+
+        <attr name="collapsedImageSize" format="dimension"/>
+        <attr name="expandedImageSize" format="dimension"/>
+
+        <attr name="collapsedTextSize" format="dimension"/>
+        <attr name="expandedTextSize" format="dimension"/>
+        <attr name="width" format="dimension"/>
+    </declare-styleable>
+
 </resources>

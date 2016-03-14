@@ -26,6 +26,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bmob.BTPFileResponse;
+import com.bmob.BmobProFile;
 import com.example.tangyangkai.ebear.R;
 import com.example.tangyangkai.ebear.adapter.PictureAdapter;
 import com.example.tangyangkai.ebear.circlebutton.CircularProgressButton;
@@ -45,6 +47,7 @@ import com.example.tangyangkai.ebear.view.NoScrollGridView;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -149,91 +152,85 @@ public class AddNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 simulateSuccessProgress(addSaveBtn);
+                if (Bimp.tempSelectBitmap != null && Bimp.tempSelectBitmap.size() > 0) {
+                    final Person person = BmobUser.getCurrentUser(AddNoteActivity.this, Person.class);
 
-                final Person person = BmobUser.getCurrentUser(AddNoteActivity.this, Person.class);
+                    final Note note = new Note();
+                    note.setUserId(person.getObjectId());
+                    note.setUser_icon(person.getUser_icon());
+                    note.setNickname(person.getNickname());
+                    note.setNote(addNoteEt.getText().toString().trim());
+                    note.setAddress(addressTv.getText().toString().trim());
+                    note.setTime(dateTv.getText().toString() + "  " + timeTv.getText().toString());
+                    int size = Bimp.tempSelectBitmap.size();
+                    paths = new String[size];
+                    for (int i = 0; i < size; i++) {
+                        paths[i] = Bimp.tempSelectBitmap.get(i).getPath();
+                    }
+                    Bmob.uploadBatch(context, paths, new UploadBatchListener() {
 
-                final Note note = new Note();
-                note.setUserId(person.getObjectId());
-                note.setUser_icon(person.getUser_icon());
-                note.setNickname(person.getNickname());
-                note.setNote(addNoteEt.getText().toString().trim());
-                note.setAddress(addressTv.getText().toString().trim());
-                note.setTime(dateTv.getText().toString() + "  " + timeTv.getText().toString());
-                note.save(context, new SaveListener() {
-                    @Override
-                    public void onSuccess() {
-                        UiUtil.showToast(context, "添加数据成功");
-
-                        if (Bimp.tempSelectBitmap != null && Bimp.tempSelectBitmap.size() > 0) {
-
-                            for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
-                                paths = new String[Bimp.tempSelectBitmap.size()];
-                                paths[i] = Bimp.tempSelectBitmap.get(i).getPath();
-                            }
-                            Bmob.uploadBatch(context, paths, new UploadBatchListener() {
-
-                                @Override
-                                public void onSuccess(List<BmobFile> files, List<String> urls) {
-                                    // TODO Auto-generated method stub
-                                    //1、files-上传完成后的BmobFile集合，是为了方便大家对其上传后的数据进行操作，例如你可以将该文件保存到表中
-                                    //2、urls-上传文件的服务器地址
-
-                                    //批量添加数据到图片表中
-                                    List<BmobObject> imageBeans = new ArrayList<BmobObject>();
-                                    for (int i = 0; i < urls.size(); i++) {
-                                        ImageBean img = new ImageBean();
-
-                                        img.setId(note.getObjectId());
-
-                                        img.setPath(urls.get(i));
-                                        imageBeans.add(img);
+                        @Override
+                        public void onSuccess(List<BmobFile> files, List<String> urls) {
+                            // TODO Auto-generated method stub
+                            //1、files-上传完成后的BmobFile集合，是为了方便大家对其上传后的数据进行操作，例如你可以将该文件保存到表中
+                            //2、urls-上传文件的服务器地址
+                            if (urls.size() == paths.length) {
+                                note.setImgs(urls.toString());
+                                note.save(context, new SaveListener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        UiUtil.showToast(context, "上传成功");
+                                        finish();
                                     }
-                                    new BmobObject().insertBatch(context, imageBeans, new SaveListener() {
 
-                                        @Override
-                                        public void onSuccess() {
-                                            UiUtil.showToast(context, "图片上传成功");
-                                        }
+                                    @Override
+                                    public void onFailure(int i, String s) {
 
-                                        @Override
-                                        public void onFailure(int i, String s) {
-                                            UiUtil.showToast(context, "图片上传失败");
-                                        }
-                                    });
-
-
-                                }
-
-                                @Override
-                                public void onError(int statuscode, String errormsg) {
-                                    // TODO Auto-generated method stub
-                                    UiUtil.showToast(context, "错误码" + statuscode + ",错误描述：" + errormsg);
-                                }
-
-                                @Override
-                                public void onProgress(int curIndex, int curPercent, int total, int totalPercent) {
-                                    // TODO Auto-generated method stub
-                                    //1、curIndex--表示当前第几个文件正在上传
-                                    //2、curPercent--表示当前上传文件的进度值（百分比）
-                                    //3、total--表示总的上传文件数
-                                    //4、totalPercent--表示总的上传进度（百分比）
-                                }
-                            });
-
+                                    }
+                                });
+                            }
 
                         }
 
+                        @Override
+                        public void onError(int statuscode, String errormsg) {
+                            // TODO Auto-generated method stub
+                        }
 
-                    }
+                        @Override
+                        public void onProgress(int curIndex, int curPercent, int total, int totalPercent) {
+                            // TODO Auto-generated method stub
+                            //1、curIndex--表示当前第几个文件正在上传
+                            //2、curPercent--表示当前上传文件的进度值（百分比）
+                            //3、total--表示总的上传文件数
+                            //4、totalPercent--表示总的上传进度（百分比）
+                        }
+                    });
+                } else {
+                    Person person = BmobUser.getCurrentUser(AddNoteActivity.this, Person.class);
+                    Note note = new Note();
+                    note.setUserId(person.getObjectId());
+                    note.setUser_icon(person.getUser_icon());
+                    note.setNickname(person.getNickname());
+                    note.setNote(addNoteEt.getText().toString().trim());
+                    note.setAddress(addressTv.getText().toString().trim());
+                    note.setTime(dateTv.getText().toString() + "  " + timeTv.getText().toString());
+                    note.save(context, new SaveListener() {
 
+                        @Override
+                        public void onSuccess() {
+                            UiUtil.showToast(context, "发布成功");
+                        }
 
-                    @Override
-                    public void onFailure(int i, String s) {
-                        UiUtil.showToast(context, "添加数据失败");
-                    }
-                });
+                        @Override
+                        public void onFailure(int code, String arg0) {
+                            UiUtil.showToast(context, "发布失败");
+                        }
+                    });
+                }
             }
         });
+
 
         adapter = new PictureAdapter(this);
         addGv.setSelector(new ColorDrawable(Color.TRANSPARENT));
@@ -307,12 +304,6 @@ public class AddNoteActivity extends AppCompatActivity {
                 }
                 break;
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        adapter.notifyDataSetChanged();
     }
 
 

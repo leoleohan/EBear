@@ -12,6 +12,7 @@ public class Note extends BmobObject {
     private String time;
     private String note;
     private String address;
+    private String imgs;
 
     public void setAddress(String address) {
         this.address = address;
@@ -59,5 +60,13 @@ public class Note extends BmobObject {
 
     public String getNote() {
         return note;
+    }
+
+    public String getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(String imgs) {
+        this.imgs = imgs;
     }
 }

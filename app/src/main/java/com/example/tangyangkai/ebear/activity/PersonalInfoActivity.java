@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.tangyangkai.ebear.R;
+import com.example.tangyangkai.ebear.model.Note;
 import com.example.tangyangkai.ebear.model.Person;
 import com.example.tangyangkai.ebear.utils.Calculate;
 import com.example.tangyangkai.ebear.utils.DateDialog;
@@ -74,32 +76,6 @@ public class PersonalInfoActivity extends AppCompatActivity {
     private void initviews() {
 
 
-        //加载进来初始化信息
-        Person person = BmobUser.getCurrentUser(PersonalInfoActivity.this, Person.class);
-        if (person.getNickname() != null) {
-            infoNameEt.setText(person.getNickname());
-        } else {
-            infoNameEt.setText(person.getUsername());
-        }
-        if (person.getAge() != null && person.getBirthday() != null) {
-            infoBirTv.setText(person.getBirthday());
-        } else {
-            infoBirTv.setText(GetDate.lastDay());
-        }
-        if (person.getSex().equals("男")) {
-            infoManRb.setBackground(getResources().getDrawable(R.drawable.man_focus));
-            infoWomanRb.setBackground(getResources().getDrawable(R.drawable.woman_normal));
-        }
-        if (person.getSex().equals("女")) {
-            infoManRb.setBackground(getResources().getDrawable(R.drawable.man_normal));
-            infoWomanRb.setBackground(getResources().getDrawable(R.drawable.woman_focus));
-        }
-        if(person.getUser_icon()!=null){
-            ImageLoader.getInstance().displayImage(person.getUser_icon(), infoHeadImg);
-
-        }else{
-            infoHeadImg.setBackground(getResources().getDrawable(R.drawable.defult_img));
-        }
 
         titleTv.setText("个人信息");
         backImg.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +133,11 @@ public class PersonalInfoActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess() {
                         // TODO Auto-generated method stub
+
+                        //修改listview里面的值
+
                         UiUtil.showToast(context, "更新用户信息成功");
+                        finish();
                     }
 
                     @Override
@@ -170,9 +150,38 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
             }
         });
+        //加载进来初始化信息
+        Person person = BmobUser.getCurrentUser(PersonalInfoActivity.this, Person.class);
+        if (person.getNickname() != null) {
+            infoNameEt.setText(person.getNickname());
+        } else {
+            infoNameEt.setText(person.getUsername());
+        }
+        if (person.getAge() != null && person.getBirthday() != null) {
+            infoBirTv.setText(person.getBirthday());
+        } else {
+            infoBirTv.setText(GetDate.lastDay());
+        }
+         if (person.getSex() == null) {
+            infoManRb.setBackground(getResources().getDrawable(R.drawable.man_focus));
+            infoWomanRb.setBackground(getResources().getDrawable(R.drawable.woman_normal));
+        }else if (person.getSex().equals("男")) {
+            infoManRb.setBackground(getResources().getDrawable(R.drawable.man_focus));
+            infoWomanRb.setBackground(getResources().getDrawable(R.drawable.woman_normal));
+        } else if (person.getSex().equals("女")) {
+            infoManRb.setBackground(getResources().getDrawable(R.drawable.man_normal));
+            infoWomanRb.setBackground(getResources().getDrawable(R.drawable.woman_focus));
+        }
+
+
+        if (person.getUser_icon() != null) {
+            ImageLoader.getInstance().displayImage(person.getUser_icon(), infoHeadImg);
+
+        } else {
+            infoHeadImg.setBackground(getResources().getDrawable(R.drawable.defult_img));
+        }
 
 
     }
-
 
 }

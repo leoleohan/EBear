@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.tangyangkai.ebear.R;
+import com.example.tangyangkai.ebear.model.Note;
 import com.example.tangyangkai.ebear.model.Person;
 import com.example.tangyangkai.ebear.utils.BitmapUtils;
 import com.example.tangyangkai.ebear.utils.HankkinUtils;
@@ -29,10 +30,16 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import me.drakeet.materialdialog.MaterialDialog;
@@ -47,6 +54,7 @@ public class PersonalActivity extends AppCompatActivity {
     private TextView nicknameTv;
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
+    private List<Note> noteList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +84,7 @@ public class PersonalActivity extends AppCompatActivity {
         setPullToZoomViewLayoutParams(scrollView);
 
 
+        //进来初始化数据
         Person person = BmobUser.getCurrentUser(PersonalActivity.this, Person.class);
         if (person.getUser_icon() != null) {
             ImageLoader.getInstance().displayImage(person.getUser_icon(), imageview);
@@ -89,11 +98,13 @@ public class PersonalActivity extends AppCompatActivity {
             nicknameTv.setText(person.getUsername());
         }
 
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        //进来初始化数据
         Person person = BmobUser.getCurrentUser(PersonalActivity.this, Person.class);
         if (person.getUser_icon() != null) {
             ImageLoader.getInstance().displayImage(person.getUser_icon(), imageview);
@@ -348,15 +359,20 @@ public class PersonalActivity extends AppCompatActivity {
 
 
     //更新用户信息
-    private void update(String url) {
+    private void update(final String url) {
         Person newUser = new Person();
         newUser.setUser_icon(url);
         BmobUser bmobUser = BmobUser.getCurrentUser(context);
         newUser.update(context, bmobUser.getObjectId(), new UpdateListener() {
             @Override
             public void onSuccess() {
+
+
                 // TODO Auto-generated method stub
+                //通知listview进行修改
+
                 dimissDialog();
+
                 UiUtil.showToast(context, "上传头像成功");
             }
 
@@ -390,4 +406,5 @@ public class PersonalActivity extends AppCompatActivity {
             loadDialog.dismiss();
         }
     }
+
 }

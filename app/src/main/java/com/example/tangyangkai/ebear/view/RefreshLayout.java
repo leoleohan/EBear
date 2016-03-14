@@ -1,123 +1,136 @@
 package com.example.tangyangkai.ebear.view;
 
+
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.tangyangkai.ebear.R;
 
-/**
- * 继承自SwipeRefreshLayout,从而实现滑动到底部时上拉加载更多的功能.
- * 
- * @author mrsimple
- */
 public class RefreshLayout extends SwipeRefreshLayout {
 
-	// listview实例
-	private ListView mListView;
-	// 上拉接口监听器, 到了最底部的上拉加载操作
-	private OnLoadListener mOnLoadListener;
-	// ListView的加载中footer
-	private View mListViewFooter;
-	// 是否在加载中 ( 上拉加载更多 )
-	private boolean isLoading = false;
+    private final int mTouchSlop;
+    private ListView mListView;
+    private OnLoadListener mOnLoadListener;
 
-	// 按下时的y坐标
-	private int mYDown;
-	// 抬起时的y坐标
-	private int mLastY;
-	// 滑动到最下面时的上拉操作
-	private int mTouchSlop;
+    private float firstTouchY;
+    private float lastTouchY;
 
-	public RefreshLayout(Context context) {
-		this(context, null);
-	}
+    private boolean isLoading = false;
+    private View footerView;
+    private LinearLayout footerHolder;
 
-	public RefreshLayout(Context context, AttributeSet attrs) {
-		super(context, attrs);
+    public RefreshLayout(Context context) {
+        this(context, null);
+    }
 
-		mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-		mListViewFooter = LayoutInflater.from(context).inflate(
-				R.layout.listview_footer, null, false);
-	}
+    public RefreshLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
+//        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        mTouchSlop = 200;
+        footerView = LayoutInflater.from(context).inflate(
+                R.layout.listview_footer, null, false);
+//        footerView.setPaintMode(0);
+        footerHolder = new LinearLayout(context);
+        footerHolder.setGravity(Gravity.CENTER);
+        footerHolder.addView(footerView);
 
-	@Override
-	protected void onLayout(boolean changed, int left, int top, int right,
-							int bottom) {
-		super.onLayout(changed, left, top, right, bottom);
-		// 初始化ListView对象
-		if (mListView == null) {
-			getListView();
-		}
-	}
 
-	// 获取ListView对象
-	private void getListView() {
-		int childs = getChildCount();
-		if (childs > 0) {
-			View childView = getChildAt(0);
-			if (childView instanceof ListView) {
-				mListView = (ListView) childView;
-			}
-		}
-	}
+        footerView.setVisibility(GONE);
 
-	public boolean dispatchTouchEvent(MotionEvent event) {
-		final int action = event.getAction();
+    }
 
-		switch (action) {
-			case MotionEvent.ACTION_DOWN:
-				// 按下
-				mYDown = (int) event.getRawY();
-				break;
+    //set the child view of RefreshLayout,ListView
+    public void setChildView(ListView mListView) {
+        this.mListView = mListView;
 
-			case MotionEvent.ACTION_MOVE:
-				// 移动
-				mLastY = (int) event.getRawY();
-				break;
+        mListView.addFooterView(footerHolder);
+    }
 
-			case MotionEvent.ACTION_UP:
-				// 抬起
-				if ((mYDown - mLastY) >= mTouchSlop && isLoading == false) {
-					// 设置状态
-					setLoading(true);
-					//
-					mOnLoadListener.onLoad();
-				}
-				break;
-			default:
-				break;
-		}
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        final int action = event.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                firstTouchY = event.getRawY();
+                break;
 
-		return super.dispatchTouchEvent(event);
-	}
+            case MotionEvent.ACTION_UP:
+                lastTouchY = event.getRawY();
+                if (canLoadMore()) {
+                    loadData();
+                }
 
-	// 设置加载状态
-	public void setLoading(boolean loading) {
-		isLoading = loading;
-		if (isLoading) {
-			mListView.addFooterView(mListViewFooter);
-		} else {
-			mListView.removeFooterView(mListViewFooter);
 
-		}
-	}
+//                Log.d("movvvvvvve", firstTouchY - lastTouchY + "");
+//
+//                Log.d("movvve",mTouchSlop +"");
+                break;
+            default:
+                break;
+        }
 
-	// 设置监听器
-	public void setOnLoadListener(OnLoadListener loadListener) {
-		mOnLoadListener = loadListener;
-	}
+        return super.dispatchTouchEvent(event);
+    }
 
-	// 加载更多的接口
-	public interface OnLoadListener {
-		public void onLoad();
-	}
+    private boolean canLoadMore() {
+        return isBottom() && !isLoading && isPullingUp();
+    }
+
+    private boolean isBottom() {
+        if (mListView!=null){
+            if (mListView.getCount() > 0) {
+                if (mListView.getLastVisiblePosition() == mListView.getAdapter().getCount() - 1 &&
+                        mListView.getChildAt(mListView.getChildCount() - 1).getBottom() <= mListView.getHeight()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isPullingUp() {
+        return (firstTouchY - lastTouchY) >= mTouchSlop;
+    }
+
+    private void loadData() {
+        if (mOnLoadListener != null) {
+            setLoading(true);
+        }
+    }
+
+    public void setLoading(boolean loading) {
+        if (mListView == null) return;
+        isLoading = loading;
+        if (loading) {
+            if (isRefreshing()) {
+                setRefreshing(false);
+            }
+
+            footerView.setVisibility(VISIBLE);
+
+            mListView.setSelection(mListView.getAdapter().getCount() - 1);
+            mOnLoadListener.onLoad();
+        } else {
+            footerView.setVisibility(GONE);
+            firstTouchY = 0;
+            lastTouchY = 0;
+        }
+    }
+
+
+    public void setOnLoadListener(OnLoadListener loadListener) {
+        mOnLoadListener = loadListener;
+    }
+
+    public interface OnLoadListener {
+        public void onLoad();
+    }
 }

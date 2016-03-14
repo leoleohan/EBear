@@ -12,14 +12,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.TextView;
 
 import com.example.tangyangkai.ebear.R;
 import com.example.tangyangkai.ebear.adapter.FragmentAdapter;
 import com.example.tangyangkai.ebear.model.Person;
+import com.example.tangyangkai.ebear.myinterface.ScrollDirectionListener;
 import com.example.tangyangkai.ebear.view.PagerSlidingTabStrip;
 import com.example.tangyangkai.ebear.view.RippleView;
 import com.example.tangyangkai.ebear.view.RoundImageView;
@@ -66,8 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
-    public static MainActivity instance=null;
-
+    public static MainActivity instance = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initviews();
         context = this;
-        instance=this;
+        instance = this;
     }
 
     private void initviews() {
@@ -135,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, AddNoteActivity.class));
+                floatingActionsMenu.toggle();
             }
         });
         FloatingActionButton fbMy = (FloatingActionButton) findViewById(R.id.fb_person);
@@ -142,16 +145,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, PersonalActivity.class));
+                floatingActionsMenu.toggle();
             }
         });
 
 
-        mainAttentionRv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, MyAttentionActivity.class));
-            }
-        });
+
         mainPersonalRv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -171,19 +170,40 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+        //进来初始化数据
+
         Person person = BmobUser.getCurrentUser(MainActivity.this, Person.class);
         if (person.getNickname() != null) {
-            mainUsernameTv.setText(person.getNickname());
+            mainUsernameTv.setText("欢迎你," + person.getNickname());
         } else {
-            mainUsernameTv.setText(person.getUsername());
+            mainUsernameTv.setText("欢迎你," + person.getUsername());
         }
+        if (person.getUser_icon() != null) {
+            ImageLoader.getInstance().displayImage(person.getUser_icon(), mainHeadImg);
+
+        } else {
+            mainHeadImg.setBackground(getResources().getDrawable(R.drawable.defult_img));
+        }
+
+
     }
 
+    //悬浮按钮的折叠与隐藏
+    public void hideFab(){
+        floatingActionsMenu.hide();
+    }
+
+
+    public FloatingActionsMenu getFloatingActionsMenu() {
+        return floatingActionsMenu;
+    }
 
     //界面颜色更改
     private void colorChange(int position) {
 
-        int color[] = new int[]{getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.attention_color), getResources().getColor(R.color.mine_color)};
+        int color[] = new int[]{getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.mine_color), getResources().getColor(R.color.attention_color)};
         mainTab.setBackgroundColor(color[position]);
         toolbar.setBackgroundColor(color[position]);
         mainTab.setIndicatorColor(colorBurn(color[position]));
