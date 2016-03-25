@@ -13,7 +13,6 @@ import com.example.tangyangkai.ebear.model.Note;
 import com.example.tangyangkai.ebear.model.Person;
 import com.example.tangyangkai.ebear.view.NoScrollGridView;
 import com.example.tangyangkai.ebear.view.RoundImageView;
-import com.lidroid.xutils.BitmapUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
