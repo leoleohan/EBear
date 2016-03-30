@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
     public static MainActivity instance = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         mainPersonalRv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,11 +175,7 @@ public class MainActivity extends AppCompatActivity {
         //进来初始化数据
 
         Person person = BmobUser.getCurrentUser(MainActivity.this, Person.class);
-        if (person.getNickname() != null) {
-            mainUsernameTv.setText("欢迎你," + person.getNickname());
-        } else {
-            mainUsernameTv.setText("欢迎你," + person.getUsername());
-        }
+        mainUsernameTv.setText("欢迎你," + person.getNickname());
         if (person.getUser_icon() != null) {
             ImageLoader.getInstance().displayImage(person.getUser_icon(), mainHeadImg);
 
@@ -191,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //悬浮按钮的折叠与隐藏
-    public void hideFab(){
+    public void hideFab() {
         floatingActionsMenu.hide();
     }
 
